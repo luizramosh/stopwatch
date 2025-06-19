@@ -10,6 +10,7 @@ let horas = 0
 let minutos = 0
 let segundos = 0
 let intervalo = null
+const botaoIniciar = document.getElementById("start")
 
 function contarTempo () {
     segundos++
@@ -22,16 +23,33 @@ function contarTempo () {
         horas++
     }
 
-    atualizarDisplay(horas, minutos, segundos) /* A função contarTempo modifica horas, minutos e segundos, e passa esses valores atualizados para a função atualizarDisplay, que então atualiza o visor. */
+    atualizarDisplay(horas, minutos, segundos) //Atribuição dos valores atualizados
 }
 
 function iniciarCronometro() {
     if(intervalo !== null) return 
     intervalo = setInterval(contarTempo, 1000)
+    botaoIniciar.textContent = "Iniciar"
+   
 }
 
-document.getElementById("start").addEventListener('click', iniciarCronometro)
+function pararCronometro() {
+    clearInterval(intervalo)
+    intervalo = null 
+    botaoIniciar.textContent = "Retomar"
+}
 
-/*
- Falta inserir as funções de stop e reset do cronômetro, além de clearInterval()
-*/
+function resetarCronometro() {
+    pararCronometro()
+    horas = 0
+    minutos = 0
+    segundos = 0
+    atualizarDisplay(horas, minutos, segundos) //Reatribuição dos valores para reset
+    botaoIniciar.textContent = "Iniciar"
+    
+}
+
+// Event listeners
+document.getElementById("start").addEventListener('click', iniciarCronometro)
+document.getElementById("stop").addEventListener('click', pararCronometro)
+document.getElementById("reset").addEventListener('click', resetarCronometro)
